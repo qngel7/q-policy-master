@@ -3,7 +3,7 @@
 > 작성일: 2026-07-28
 > 캠페인: `OPEN-STAGE-2026-V1`
 > 승인 범위: 서대원 Seed → 기가입회원 기준시점 스냅샷 → Q-ID 개인 링크 → 3~5계정 자동롤백 검증
-> 현재 상태: RP-2B Seed·기가입회원 스냅샷·개인 링크 준비 완료 · RP-2C 검증 대기
+> 현재 상태: RP-2C 읽기 전용 검증 `PASS` · RP-2D 3~5계정 자동롤백 파일럿 대기
 > 기준 복원지점: RP-1 `PASS` · 커밋 `9d55947772ffcd69e26a790bebc245a6c9ac146f`
 
 ## 1. 이번 단계에서 바뀌는 것
@@ -269,3 +269,20 @@ RP-2A는 통과했다. 다음 허용 작업은 `prepare_open_stage_rp2_v1.sql` �
 - 확인 환경: Supabase Production · Primary Database · role `postgres`
 
 RP-2B는 완료되었다. 다음 허용 작업은 읽기 전용 `verify_open_stage_rp2_v1.sql` 전체 실행이다. 검증 결과 확인 전 파일럿 SQL은 실행하지 않는다.
+
+## 13. RP-2C 검증 확정 기록
+
+- `verify_open_stage_rp2_v1.sql` 전체 실행 성공
+- 최종 결과: `PASS`
+- 확인 메시지: `RP-2 Seed·기가입회원 스냅샷·Q-ID 개인 링크 준비 완료 · 영구 장부 0 · 라이브 미연결`
+- 영구 초대 장부: 0건
+- 가입 API·초대장 링크·실서비스 가입 동선: 미연결
+
+### RP-2C 검증 증빙
+
+- 파일: `_backups/open_stage/20260728_RP2/rp2c-verification-pass.png`
+- SHA-256: `D39F6A8A51133D3C2A09EBC8960C8304D5D935A8E1EBC6744E1812291582A3F4`
+- 매니페스트: `_backups/open_stage/20260728_RP2/manifest.sha256`
+- 확인 환경: Supabase Production · Primary Database · role `postgres`
+
+RP-2C는 통과했다. 다음 허용 작업은 `run_open_stage_rp2_pilot_v1.sql` 전체 실행이다. 이 파일럿은 유효한 기가입회원 3~5명을 자동 선정하여 초대 귀속·5명 기준·장부 제약을 검사하고, 하위 트랜잭션에서 만든 임시 장부를 자동 롤백한다.
