@@ -3,7 +3,7 @@
 > 작성일: 2026-07-28
 > 캠페인: `OPEN-STAGE-2026-V1`
 > 승인 범위: 서대원 Seed → 기가입회원 기준시점 스냅샷 → Q-ID 개인 링크 → 3~5계정 자동롤백 검증
-> 현재 상태: 실행 파일 작성 완료 · Supabase 사전점검 대기
+> 현재 상태: RP-2A 사전점검 `PASS` · RP-2B 준비 SQL 실행 대기
 > 기준 복원지점: RP-1 `PASS` · 커밋 `9d55947772ffcd69e26a790bebc245a6c9ac146f`
 
 ## 1. 이번 단계에서 바뀌는 것
@@ -222,3 +222,30 @@ participant 건수:
 RP-2 checkpoint_at:
 비고:
 ```
+
+## 11. RP-2A 사전점검 확정 기록
+
+| 항목 | 결과 |
+|---|---|
+| 실행 결과 | `ready_for_rp2 = true` |
+| 캠페인 | `OPEN-STAGE-2026-V1` |
+| 캠페인 상태 | `draft` |
+| Seed Q-ID | `SDW00000007` |
+| Seed 이름 | `서대원` |
+| 기가입 스냅샷 대상 | 24명 |
+| 기존 Founder | 9명 |
+| Founder 후보 | 15명 |
+| 제외 테스트계정 | 1명 |
+| 전체 registrations | 26명 |
+| 회원원장 지문 | `8af606d87870554f1963a2c10abf684f` |
+| DB 확인시각 | `2026-07-28 13:22:42.394523+00` |
+| 한국시각 | `2026-07-28 22:22:42.394523+09` |
+
+### RP-2A 검증 증빙
+
+- 파일: `_backups/open_stage/20260728_RP2/rp2a-preflight-pass.png`
+- SHA-256: `ADE2E6B6F7EC9E281542D21E38F015F2E376FD194A00117CC22D9A184706BB58`
+- 매니페스트: `_backups/open_stage/20260728_RP2/manifest.sha256`
+- 확인 환경: Supabase Production · Primary Database · role `postgres`
+
+RP-2A는 통과했다. 다음 허용 작업은 `prepare_open_stage_rp2_v1.sql` 전체 실행이다. RP-2B 결과 확인 전 검증·파일럿 SQL을 이어서 실행하지 않는다.
