@@ -3,7 +3,7 @@
 > 작성일: 2026-07-28
 > 캠페인: `OPEN-STAGE-2026-V1`
 > 승인 범위: 서대원 Seed → 기가입회원 기준시점 스냅샷 → Q-ID 개인 링크 → 3~5계정 자동롤백 검증
-> 현재 상태: RP-2C 읽기 전용 검증 `PASS` · RP-2D 3~5계정 자동롤백 파일럿 대기
+> 현재 상태: RP-2A~RP-2D 전체 `PASS` · RP-2 완료 · 라이브 연결은 RP-3 별도 승인 대기
 > 기준 복원지점: RP-1 `PASS` · 커밋 `9d55947772ffcd69e26a790bebc245a6c9ac146f`
 
 ## 1. 이번 단계에서 바뀌는 것
@@ -286,3 +286,29 @@ RP-2B는 완료되었다. 다음 허용 작업은 읽기 전용 `verify_open_sta
 - 확인 환경: Supabase Production · Primary Database · role `postgres`
 
 RP-2C는 통과했다. 다음 허용 작업은 `run_open_stage_rp2_pilot_v1.sql` 전체 실행이다. 이 파일럿은 유효한 기가입회원 3~5명을 자동 선정하여 초대 귀속·5명 기준·장부 제약을 검사하고, 하위 트랜잭션에서 만든 임시 장부를 자동 롤백한다.
+
+## 14. RP-2D 자동롤백 파일럿 확정 기록
+
+| 항목 | 결과 |
+|---|---|
+| 최종 결과 | `PASS` |
+| Seed Q-ID | `SDW00000007` |
+| 요청 표본 | 5명 |
+| 실제 표본 | 5명 |
+| 표본 Q-ID | `ACB00000011`, `BNB00000009`, `CYS00000025`, `HSU00000010`, `JMO00000001` |
+| 검증 장부 | 5건 |
+| Open Founder 기준 | 5명 |
+| 기준 충족 판정 | `true` |
+| 영구 장부 증감 | 0건 |
+| 영구 장부 잔존 | 0건 |
+
+파일럿에서 만든 테스트 장부 5건은 하위 트랜잭션에서 자동 롤백되었다. 따라서 표본 회원의 실제 초대 실적·Founder 자격·회원 플랜은 변경되지 않았다.
+
+### RP-2D 검증 증빙
+
+- 파일: `_backups/open_stage/20260728_RP2/rp2d-pilot-pass.png`
+- SHA-256: `4FDCF0BA686AC41A75C24C9E4A4E147F34F526063E3BC6D2472F5717CEC2EDF3`
+- 매니페스트: `_backups/open_stage/20260728_RP2/manifest.sha256`
+- 확인 환경: Supabase Production · Primary Database · role `postgres`
+
+RP-2는 완료되었다. Supabase에는 Seed·기가입회원 스냅샷과 Q-ID 개인 링크 생성 기반만 준비되어 있으며, 영구 초대 장부는 0건이다. 실제 초대장 링크, 가입 API, 초대 귀속, 5명 달성 자동승격은 연결하지 않았다. 해당 라이브 연결은 RP-3 계획·승인·복원지점 확정 후에만 진행한다.
