@@ -2,7 +2,7 @@
 
 > 작성일: 2026-07-28  
 > 캠페인: `OPEN-STAGE-2026-V1`  
-> 현재 단계: RP-0 기록 완료 · RP-1 SQL 실행 대기  
+> 현재 단계: RP-1 설치·검증 `PASS` 완료 · RP-2 별도 승인 전 대기
 > 기준 원칙: Q-ID는 대외 식별, `account_id`는 내부 식별
 
 ## 1. 목적
@@ -220,22 +220,33 @@ v_confirmation text := 'DROP_OPEN_STAGE_V1';
 - 10명·5명 조건 외부 공지
 - `plan=founder` 또는 `is_founder` 자동 변경
 
-## 10. RP-1 완료 기록란
+## 10. RP-1 완료 기록
 
-Supabase 실행 후 다음을 기록한다.
+| 항목 | 확정 기록 |
+|---|---|
+| 코드 배포 | `2026-07-28T10:18:16+09:00` |
+| 배포 커밋 | `f5c466ba28501373071bd7892123d9af08b0d2c8` |
+| 배포문 | `2026-07-28 · Open Stage Founder 초대 RP-0 및 Supabase 1단계 기반` |
+| Supabase 실행일 | `2026-07-28` |
+| 실행자 Q-ID | 제출 화면에서 확인되지 않아 미기록 |
+| create SQL SHA-256 | `A2BBF3891A3C14AE849B0EBD348C5E964F27FDD8C867949601CA60536FC6D269` |
+| create SQL 결과 | 성공 — 검증 SQL이 설치 객체와 RP 체크포인트를 확인 |
+| verify SQL 결과 | `PASS` |
+| 캠페인 상태 | RP-1 체크포인트 `draft`; 검증 허용 안전상태 `draft/paused` |
+| registrations 건수 | RP-1 DB 체크포인트에 기록됨; 제출 화면에는 수치 미표시 |
+| participants 건수 | `0` |
+| ledger 건수 | `0` |
+| RP-0 확인 | 확인 완료 |
+| RP-1 확인 | 확인 완료 |
+| 라이브 연결 | 없음 |
 
-```text
-실행일시:
-실행자 Q-ID:
-RP-1 매니페스트 일치 여부:
-create SQL SHA-256:
-create SQL 결과:
-verify SQL 결과:
-캠페인 상태:
-registrations 건수:
-participants 건수:
-ledger 건수:
-RP-0 확인:
-RP-1 확인:
-비고:
-```
+정확한 Supabase 실행시각과 당시 `registrations_count`는 운영 DB의 `open_stage_release_checkpoints`에서 `checkpoint_code='RP-1'`로 조회한다.
+
+### RP-1 검증 증빙
+
+- 파일: `_backups/open_stage/20260728_RP1/supabase-rp1-verification-pass.png`
+- 증빙 SHA-256: `DD3CCCCCFA28CD20AFF3016DBDB12B90C22B34A1970EDD28580999A8B39CEABD`
+- 증빙 매니페스트: `_backups/open_stage/20260728_RP1/manifest.sha256`
+- 화면 확인 내용: Supabase Production · Primary Database · role `postgres`에서 검증 SQL 마지막 결과 `PASS`
+
+RP-1은 완료되었다. RP-2의 서대원 Seed Pilot, 실제 초대 귀속, 실회원 등록은 별도 변경안 승인 전까지 시작하지 않는다.
