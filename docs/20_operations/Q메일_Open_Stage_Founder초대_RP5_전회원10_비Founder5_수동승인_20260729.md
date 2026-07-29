@@ -187,10 +187,33 @@ FROM public.open_stage_founder_approve_v1(
 - `services/010/db/rollback_open_stage_rp5_v1.sql`
 - `services/010/db/open_stage_rp5_manifest.sha256`
 
-## 9. 확정 초대장 연결
+## 9. 공유카드와 설명용 초대장 분리
 
-2026-07-29 기준 초대 버튼에 사용하는 최종 디자인은 특정 초대인 명의가
-들어간 초기안이 아니라 아래의 시기 초대형 프리런칭 초대장이다.
+2026-07-29 카카오 미리보기 검증 결과, 1080×1350 세로 초대장은 공유카드에서
+축소·잘림이 커서 핵심 메시지 전달 효율이 낮았다. 따라서 실제 초대 버튼과
+OG·Twitter 미리보기에는 기존 카드 비율인 1200×630 가로 카드를 사용하고,
+세로 초대장은 상세 설명페이지 등에 사용하는 별도 콘텐츠 자산으로 보존한다.
+
+### 9.1 실제 공유용 가로 카드
+
+- 디자인 원본:
+  `outputs/qmail_open_stage_invitation/qmail-prelaunch-share-card.html`
+- 렌더 스크립트:
+  `outputs/qmail_open_stage_invitation/render-share-card.cjs`
+- 승인 렌더:
+  `outputs/qmail_open_stage_invitation/Q메일_프리런칭_공유카드_1200x630.png`
+- 운영 공개 파일:
+  `services/010/public/images/qmail-prelaunch-share-card-1200x630.png`
+- SHA-256:
+  `440F87C07C06C44921FC7D39F7BDD740EA6B6D794C89DEA0CC35E6E8499373DD`
+- 규격: `1200×630`
+- 카드 핵심 문구:
+  `Q메일 프리런칭에 초대합니다.`
+  `전화번호가 메일이 되는 Q-메일`
+- 자산 버전:
+  `v=20260729-card-r1`
+
+### 9.2 설명페이지용 세로 초대장
 
 - 승인 원본:
   `outputs/qmail_open_stage_invitation/Q메일_프리런칭_초대장_카카오.png`
@@ -198,28 +221,30 @@ FROM public.open_stage_founder_approve_v1(
   `services/010/public/images/qmail-prelaunch-invitation-2026.png`
 - SHA-256:
   `9617E81DE1F78015C358DCFD78252B2E88B3683F1B6029BF748CEF39C344D2EE`
-- 동봉 문구 원본:
+- 규격: `1080×1350`
+- 동봉·설명 문구 원본:
   `outputs/qmail_open_stage_invitation/초대장_동봉메시지.md`
+
+세로 초대장은 카카오 공유 썸네일로 사용하지 않는다. 프리런칭 의미, 10매
+초대권, 5명 가입 시 Open Founder 후보가 되는 조건 등 상세 정보는 랜딩페이지,
+Open Stage 상태 화면 또는 후속 설명페이지에서 전달한다.
 
 `Open Stage 초대`, Founder 초대 이벤트, Open Founder 후보 화면은 모두
 `shareMemberInvitation()`을 호출한다. 공유 순서는 다음과 같다.
 
-1. 카카오 JavaScript SDK가 준비됐으면 승인 초대장 이미지·확정 문구·개인
-   캠페인 링크로 카카오 피드 공유
-2. 카카오 SDK를 쓸 수 없으면 Web Share의 이미지 파일 공유
-3. 파일 공유도 불가능하면 확정 동봉 메시지와 개인 링크 공유
-4. 공유 API가 없으면 전체 메시지를 클립보드 또는 복사창으로 제공
+1. 카카오 JavaScript SDK가 준비됐으면 가로 공유카드·핵심 문구·개인 캠페인
+   링크로 카카오 피드 공유
+2. 카카오 SDK를 쓸 수 없으면 Web Share의 가로 이미지 파일 공유
+3. 파일 공유도 불가능하면 짧은 초대 문구와 개인 링크 공유
+4. 공유 API가 없으면 같은 내용을 클립보드 또는 복사창으로 제공
 
 개인 링크의 `ref` Q-ID와 `campaign=OPEN-STAGE-2026-V1`는 유지하고,
 링크 미리보기 캐시 분리를 위해 공유 시 `share_v=RP5`만 추가한다.
 가입 API는 `ref`와 `campaign`만 해석하므로 초대 귀속에는 영향이 없다.
 
-HTML의 OG·Twitter 미리보기도 같은 승인 이미지와 확정 핵심 문구를 사용한다.
-이미지 URL에는 `v=20260729-rp5-1`을 붙인다. 이는 배포 직전 존재하지 않던
-새 정적 파일의 첫 요청이 SPA HTML로 캐시되는 경우를 우회하기 위한 자산
-버전값이며 초대장 이미지 내용이나 초대 귀속에는 영향을 주지 않는다.
-기존에 발송한 URL에서 예전 `VIP Invitation` 카드가 남으면 배포 후 카카오
-URL 메타정보 관리 도구에서 해당 시험 URL의 캐시만 초기화한다.
+배포 후 카카오 URL 메타정보 관리 도구에서 기존 시험 URL의 캐시를 한 번
+초기화하고 다시 디버그한다. 새 가로 이미지 URL과 버전값을 사용하므로 이후
+공유부터는 세로 초대장이 아니라 1200×630 카드가 표시되어야 한다.
 
-로컬 전체 테스트 결과: `npm test` PASS, 이철승 보정 및 확정 초대장 연결 포함
-Open Stage 39/39 PASS.
+로컬 최종 검증: `npm test` PASS, Open Stage 39/39 PASS,
+`git diff --check` 오류 없음.
