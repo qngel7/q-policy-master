@@ -215,6 +215,9 @@ FROM public.open_stage_founder_approve_v1(
 가입 API는 `ref`와 `campaign`만 해석하므로 초대 귀속에는 영향이 없다.
 
 HTML의 OG·Twitter 미리보기도 같은 승인 이미지와 확정 핵심 문구를 사용한다.
+이미지 URL에는 `v=20260729-rp5-1`을 붙인다. 이는 배포 직전 존재하지 않던
+새 정적 파일의 첫 요청이 SPA HTML로 캐시되는 경우를 우회하기 위한 자산
+버전값이며 초대장 이미지 내용이나 초대 귀속에는 영향을 주지 않는다.
 기존에 발송한 URL에서 예전 `VIP Invitation` 카드가 남으면 배포 후 카카오
 URL 메타정보 관리 도구에서 해당 시험 URL의 캐시만 초기화한다.
 
