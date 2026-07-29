@@ -3,7 +3,7 @@
 > 작성일: 2026-07-29  
 > 캠페인: `OPEN-STAGE-2026-V1`  
 > Seed Q-ID: `SDW00000007`  
-> 현재 상태: Supabase RP-3B 설치·읽기 전용 검증 `PASS`, 앱 배포 대기  
+> 현재 상태: RP-3E 신규 1인 실가입 최종검증 `PASS` · 자동잠금 완료 · RP-3 종료  
 > RP-3 기준 복원 커밋: `58c094bf9f2d184b4a032a4dc92da3291b82c484`
 
 ## 1. RP-3의 범위
@@ -151,4 +151,20 @@ DB 설치와 앱 배포를 모두 확인한 뒤 `activate_open_stage_rp3_single_
 - RP-3B 설치 검증 결과: `PASS`, `pilot`, `live_signup_wiring=false`, `pilot_signup_limit=1`, 회원원장 26, 참가자 24, 장부 0, 복원 커밋 일치.
 - RP-3B 검증 증빙: `_backups/open_stage/20260729_RP3/rp3b-verification-pass.png`
 - RP-3B 검증 증빙 SHA-256: `789A43819CDCD07F789029EB2B916EC438D20761E97764036C9194E7B771478F`
-- 현재 다음 작업: 대표님이 `publish.bat`로 앱을 배포하고 배포 식별값을 확인한다. 활성화 SQL은 아직 실행하지 않는다.
+- 앱 배포 결과: 루트 커밋 `fc0802b`가 `main`에 push됐고 문서 미러 커밋 `d21abf7`도 push 완료.
+- 배포 증빙: `_backups/open_stage/20260729_RP3/rp3c-publish-commit.png`, `rp3c-publish-push-complete.png`
+- 운영 HTTP 검증: 응답 200, `app.js?v=20260729-open-stage-rp3`, `OPEN-STAGE-2026-V1`, `q_open_stage_ref`, `q_open_stage_campaign` 확인.
+- 운영 HTTP 검증 기록: `_backups/open_stage/20260729_RP3/rp3c-live-http-verification.txt`
+- RP-3D 활성화 결과: `PASS`, `pilot`, `live_signup_wiring=true`, `pilot_signup_limit=1`, 허용 초대자 `SDW00000007`.
+- RP-3D 증빙: `_backups/open_stage/20260729_RP3/rp3d-single-pilot-armed.png`
+- RP-3D 증빙 SHA-256: `1D7A7874BD7B15FE54AAB7A3FC4BD8514B774334FA5E72FFCC32108AE0BECC0F`
+- 신규 1인 가입 보고: `https://010.q.co.kr/?ref=SDW00000007&campaign=OPEN-STAGE-2026-V1`로 가입 완료.
+- 최종 검증: `PASS`, 캠페인 `pilot`, `live_signup_wiring=false`, 한도 1.
+- 초대자 Q-ID: `SDW00000007`
+- 신규 피초대자 Q-ID: `GGS00000027`
+- 가입 결과: `active`, `beta`, `010q`, `referrer_qid=SDW00000007`
+- 초대 장부: `verified` 1건
+- 기존 참가자: 24명 그대로, 신규 참가자·Founder 자동변경 없음
+- RP-3E 증빙: `_backups/open_stage/20260729_RP3/rp3e-live-verification-pass.png`
+- RP-3E 증빙 SHA-256: `51C2180E47AC12F7423FAC36F340F93CB8B8BEBC2C97C6D5F6B52342CE2E407C`
+- RP-3는 완료되었다. 현재 링크는 자동잠금 상태이므로 다수 초대에 사용하지 않는다. 다음 단계는 Open Founder 10명 초대·5명 가입 자격을 연결하는 RP-4 운영모드 변경안이다.
