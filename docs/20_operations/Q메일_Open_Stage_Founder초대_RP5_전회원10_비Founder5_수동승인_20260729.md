@@ -187,4 +187,36 @@ FROM public.open_stage_founder_approve_v1(
 - `services/010/db/rollback_open_stage_rp5_v1.sql`
 - `services/010/db/open_stage_rp5_manifest.sha256`
 
-로컬 전체 테스트 결과: `npm test` PASS, 이철승 보정 포함 Open Stage 38/38 PASS.
+## 9. 확정 초대장 연결
+
+2026-07-29 기준 초대 버튼에 사용하는 최종 디자인은 특정 초대인 명의가
+들어간 초기안이 아니라 아래의 시기 초대형 프리런칭 초대장이다.
+
+- 승인 원본:
+  `outputs/qmail_open_stage_invitation/Q메일_프리런칭_초대장_카카오.png`
+- 운영 공개 파일:
+  `services/010/public/images/qmail-prelaunch-invitation-2026.png`
+- SHA-256:
+  `9617E81DE1F78015C358DCFD78252B2E88B3683F1B6029BF748CEF39C344D2EE`
+- 동봉 문구 원본:
+  `outputs/qmail_open_stage_invitation/초대장_동봉메시지.md`
+
+`Open Stage 초대`, Founder 초대 이벤트, Open Founder 후보 화면은 모두
+`shareMemberInvitation()`을 호출한다. 공유 순서는 다음과 같다.
+
+1. 카카오 JavaScript SDK가 준비됐으면 승인 초대장 이미지·확정 문구·개인
+   캠페인 링크로 카카오 피드 공유
+2. 카카오 SDK를 쓸 수 없으면 Web Share의 이미지 파일 공유
+3. 파일 공유도 불가능하면 확정 동봉 메시지와 개인 링크 공유
+4. 공유 API가 없으면 전체 메시지를 클립보드 또는 복사창으로 제공
+
+개인 링크의 `ref` Q-ID와 `campaign=OPEN-STAGE-2026-V1`는 유지하고,
+링크 미리보기 캐시 분리를 위해 공유 시 `share_v=RP5`만 추가한다.
+가입 API는 `ref`와 `campaign`만 해석하므로 초대 귀속에는 영향이 없다.
+
+HTML의 OG·Twitter 미리보기도 같은 승인 이미지와 확정 핵심 문구를 사용한다.
+기존에 발송한 URL에서 예전 `VIP Invitation` 카드가 남으면 배포 후 카카오
+URL 메타정보 관리 도구에서 해당 시험 URL의 캐시만 초기화한다.
+
+로컬 전체 테스트 결과: `npm test` PASS, 이철승 보정 및 확정 초대장 연결 포함
+Open Stage 39/39 PASS.
