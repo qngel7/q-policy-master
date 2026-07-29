@@ -4,7 +4,7 @@
 > 캠페인: `OPEN-STAGE-2026-V1`  
 > Seed Q-ID: `SDW00000007`  
 > 첫 운영 후보 Q-ID: `GGS00000027`  
-> 현재 상태: RP-4B DB 설치·읽기 검증 `PASS` · 운영 잠금 유지 · RP-4C 앱 배포 대기  
+> 현재 상태: RP-4E 최종 운영 검증 `PASS` · RP-4 완료 · 실제 초대 가능  
 > RP-4 기준 복원 커밋: `fc0802b09219ad19714433cbd4d35a52889016b1`
 
 ## 1. 확정 운영정책
@@ -223,3 +223,57 @@ Seed 링크 가입자는 새 후보가 된다. 후보 링크 가입자는 일반
 - 증빙: `_backups/open_stage/20260729_RP4/rp4b-verification-pass.png`
 - 증빙 SHA-256: `6315390735D2C41DB34C7A86557792876B57CB843C9004CC574051D79DB6D1B9`
 - 판정: RP-4C 앱 배포 가능. 운영 활성화와 실제 초대는 아직 금지.
+
+## 11. RP-4C 앱 배포·운영 HTTP 검증 기록
+
+- Q_Platform 배포 커밋: `f827ca2`
+- 문서 미러 커밋: `55798fc9`
+- 배포 완료 증빙: `_backups/open_stage/20260729_RP4/rp4c-publish-push-complete.png`
+- 배포 증빙 SHA-256: `4F91F5D4A29127C4A90A67CA883F21C676600088EE8FD415C5E6E3764EF88ED1`
+- 운영 메인 응답 200
+- `app.js?v=20260729-open-stage-rp4` 확인
+- 운영 app.js에서 `OPEN_STAGE_OPERATING_CLOSED`, `/api/open-stage-status`, `getMemberInvitationContext`, `bOpenFounderCard` 확인
+- 비로그인 `/api/open-stage-status`는 401과 `LOGIN_REQUIRED` 반환
+- 최초 app.js 확인에서는 이전 엣지 사본이 반환됐으나 12초 후 캐시 무효화 재검증에서 RP-4 번들을 확인했다.
+- 운영 HTTP 기록: `_backups/open_stage/20260729_RP4/rp4c-live-http-verification.txt`
+- HTTP 기록 SHA-256: `E879716408D7F67FA41E44958643C2E8F0D60E0B4FF5DED66BD56BF9697B808E`
+- 판정: RP-4D 운영 활성화 SQL 실행 가능. RP-4E 검증 전 실제 초대 금지.
+
+## 12. RP-4D 운영 활성화 기록
+
+- 최종 결과 `PASS`
+- 캠페인 `active`
+- `operating_mode_enabled=true`, `live_signup_wiring=true`
+- 운영 배치 한도 100
+- 첫 후보 `GGS00000027`
+- 후보 진행률 0/5, 최대 인정 10명
+- `can_invite=true`
+- 개인 링크 `https://010.q.co.kr/?ref=GGS00000027&campaign=OPEN-STAGE-2026-V1`
+- 증빙: `_backups/open_stage/20260729_RP4/rp4d-operating-active.png`
+- 증빙 SHA-256: `5DA912D23DB7866E1C5D4F6F6846AAC45BA9969671ACB5811CD3857005F6A407`
+- 판정: 운영 스위치는 열렸으나 RP-4E 읽기 검증 전 실제 초대 금지.
+
+## 13. RP-4E 최종 운영 검증 기록
+
+- 최종 결과 `PASS`
+- 캠페인 `active`
+- `operating_mode_enabled=true`, `live_signup_wiring=true`
+- 운영 배치 한도 100
+- 첫 후보 `GGS00000027`
+- 후보 가입 0명, 필요 5명, 남은 인정 10명
+- `campaign_open=true`, `can_invite=true`
+- 개인 링크 `https://010.q.co.kr/?ref=GGS00000027&campaign=OPEN-STAGE-2026-V1`
+- 증빙: `_backups/open_stage/20260729_RP4/rp4e-operating-verification-pass.png`
+- 증빙 SHA-256: `1E2359EB974D29880A363CF753D7272C3A5FB3CDA3D690B42AB400E9FB1AA5F8`
+- 판정: RP-4 완료. Seed와 후보 캠페인 링크를 통한 실제 초대 시작 가능.
+
+## 14. 운영 시작 링크와 판정
+
+- Seed `SDW00000007`:
+  `https://010.q.co.kr/?ref=SDW00000007&campaign=OPEN-STAGE-2026-V1`
+- 첫 후보 `GGS00000027`:
+  `https://010.q.co.kr/?ref=GGS00000027&campaign=OPEN-STAGE-2026-V1`
+
+Seed 링크로 가입한 회원은 Open Founder 후보가 되고 10명의 인정 초대 권한을 받는다. 후보 링크로 가입한 회원은 일반회원이며 초대자 후보의 실적에만 반영된다. 후보는 최대 10명까지 인정되고 5명이 가입하면 `qualified`가 된다. Founder 플랜 확정은 관리자 확인 후 별도 처리한다.
+
+RP-4 기준 신규 verified 가입 100건에 도달하면 캠페인 가입 연결은 자동잠금된다.
